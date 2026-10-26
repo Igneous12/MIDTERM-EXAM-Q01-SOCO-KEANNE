@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pokemon List</title>
+</head>
+
+<body>
+
+    <h1>Pokemon</h1>
+
+    <button onclick="loadPokemons()">Load Pokemon</button>
+
+    <br><br>
+
+    <input type="number" id="pokemonId" placeholder="Enter pokemon ID">
+    <button onclick="searchPokemon()">Search ID</button>
+
+    <ul id="pokemonList"></ul>
+
+    <script>
+        async function loadPokemons() {
+
+            const response = await fetch("api/pokemons");
+            const pokemons = await response.json();
+            const list = document.getElementById("pokemonList");
+
+            list.innerHTML = "";
+
+            pokemons.forEach(pokemon => {
+                const item = document.createElement("li");
+
+                item.textContent =
+                    pokemon.id + " - " + pokemon.pokemon + " - " + pokemon.region;
+
+                list.appendChild(item);
+            });
+        }
+
+        async function searchPokemon() {
+
+            const id = document.getElementById("pokemonId").value;
+            const list = document.getElementById("pokemonList");
+
+            const response = await fetch("api/pokemons/" + id);
+            const pokemon = await response.json();
+
+            list.innerHTML = "";
+
+            const item = document.createElement("li");
+
+            if (response.ok) {
+                item.textContent =
+                    pokemon.id + " - " + pokemon.pokemon + " - " + pokemon.region;
+            } else {
+                item.textContent = pokemon.message;
+            }
+
+            list.appendChild(item);
+        }
+    </script>
+
+</body>
+</html>
