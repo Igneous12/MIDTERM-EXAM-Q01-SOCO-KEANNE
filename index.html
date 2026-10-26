@@ -2,48 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Pokemon List</title>
+    <title>Request List</title>
 </head>
 
 <body>
 
-    <h1>Pokemon</h1>
+    <h1>Request</h1>
 
-    <button onclick="loadPokemons()">Load Pokemon</button>
+    <button onclick="loadRequests()">Load Request</button>
 
     <br><br>
 
-    <input type="number" id="pokemonId" placeholder="Enter pokemon ID">
-    <button onclick="searchPokemon()">Search ID</button>
+    <input type="number" id="requestId" placeholder="Enter request ID">
+    <button onclick="searchRequest()">Search ID</button>
 
-    <ul id="pokemonList"></ul>
+    <ul id="requestList"></ul>
 
     <script>
-        async function loadPokemons() {
+        async function loadRequests() {
 
-            const response = await fetch("api/pokemons");
-            const pokemons = await response.json();
-            const list = document.getElementById("pokemonList");
+            const response = await fetch("api/requests");
+            const requests = await response.json();
+            const list = document.getElementById("requestList");
 
             list.innerHTML = "";
 
-            pokemons.forEach(pokemon => {
+            requests.forEach(request => {
                 const item = document.createElement("li");
 
                 item.textContent =
-                    pokemon.id + " - " + pokemon.pokemon + " - " + pokemon.region;
+                    request.id + " - " + request.requester + " - " + request.location + " - " + request.problem + " - " + request.priority + " - " + request.status;
 
                 list.appendChild(item);
             });
         }
 
-        async function searchPokemon() {
+        async function searchRequest() {
 
-            const id = document.getElementById("pokemonId").value;
-            const list = document.getElementById("pokemonList");
+            const id = document.getElementById("requestId").value;
+            const list = document.getElementById("requestList");
 
-            const response = await fetch("api/pokemons/" + id);
-            const pokemon = await response.json();
+            const response = await fetch("api/requests/" + id);
+            const request = await response.json();
 
             list.innerHTML = "";
 
@@ -51,9 +51,9 @@
 
             if (response.ok) {
                 item.textContent =
-                    pokemon.id + " - " + pokemon.pokemon + " - " + pokemon.region;
+                    request.id + " - " + request.requester + " - " + request.location + " - " + request.problem + " - " + request.priority + " - " + request.status;
             } else {
-                item.textContent = pokemon.message;
+                item.textContent = request.message;
             }
 
             list.appendChild(item);

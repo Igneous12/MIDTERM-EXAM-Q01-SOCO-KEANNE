@@ -4,43 +4,51 @@ const app = express();
 
 const PORT = 3000;
 
-const pokemons = [
+const requests = [
     {
         id: 1,
-        pokemon: "Bulbasaur",
-        region: "Kanto"
+        requester: "Keen",
+        location: "Cebu",
+        problem: "Broken Faucete",
+        priority: "High",
+        status: "Ongoing"
     },
     {
         id: 2,
-        pokemon: "Squirtle",
-        region: "Kanto"
+        requester: "Jeel",
+        location: "Mandaue",
+        problem: "No Electricity",
+        priority: "High",
+        status: "Pending"
     },
     {
         id: 3,
-        pokemon: "Charmander",
-        region: "Kanto"
+        requester: "Keet",
+        location: "Cebu",
+        problem: "Broken Bike",
+        priority: "Low",
+        status: "Pending"
     }
 ];
 
-
-app.get("/api/pokemons", (req, res) => {
-    res.json(pokemons);
+app.get("/api/requests", (req, res) => {
+    res.json(requests);
 });
 
 
-app.get("/api/pokemons/:id", (req, res) => {
+app.get("/api/requests/:id", (req, res) => {
     const id = Number(req.params.id);
-    const pokemon = pokemons.find(pokemon =>
-        pokemon.id == id
+    const request = requests.find(request =>
+        request.id == id
     );
 
-    if (!pokemon) {
+    if (!request) {
         return res.status(404).json({
-            message: "Pokemon not found"
+            message: "Request not found"
         });
     }
 
-    res.json(pokemon);
+    res.json(request);
 });
 
 app.use(express.static(__dirname));
